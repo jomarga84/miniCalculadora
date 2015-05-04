@@ -29,9 +29,9 @@ public class MiniCalculadora extends javax.swing.JFrame {
 
         txfNum2 = new javax.swing.JTextField();
         txfNum1 = new javax.swing.JTextField();
-        txFResultado = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        txfResultado = new javax.swing.JTextField();
+        comboBox = new javax.swing.JComboBox();
+        btnResultado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,14 +43,19 @@ public class MiniCalculadora extends javax.swing.JFrame {
         txfNum1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txfNum1.setText("0");
 
-        txFResultado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txFResultado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txFResultado.setText("0");
+        txfResultado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txfResultado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txfResultado.setText("0");
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "+", "-", "/", "*" }));
+        comboBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        comboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "+", "-", "/", "*" }));
 
-        jButton1.setText("=");
+        btnResultado.setText("=");
+        btnResultado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcular(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -58,13 +63,13 @@ public class MiniCalculadora extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(135, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txfNum2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txFResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txfResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -78,9 +83,9 @@ public class MiniCalculadora extends javax.swing.JFrame {
                 .addGap(84, 84, 84)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txfNum2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txFResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txfResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(175, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -91,6 +96,44 @@ public class MiniCalculadora extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void calcular(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcular
+    Numero n1 = new Numero(txfNum1.getText(), ',');
+Numero n2 = new Numero(txfNum2.getText(), ',');
+double num1 = n1.getNumero();
+double num2 = n2.getNumero();
+double resul = 0;
+if (num1 == Double.MAX_VALUE || num2 == Double.MAX_VALUE) {
+txfResultado.setText("error");
+} else {
+String operacion = (String) comboBox.getSelectedItem();
+switch (operacion) {
+case "+":
+resul = num1 + num2;
+break;
+case "-":
+resul = num1 - num2;
+break;
+case "*":
+resul = num1 * num2;
+break;
+case "/":
+if(num2==0){
+resul=Double.MAX_VALUE;
+}else{
+resul = num1 / num2;
+}
+}
+if(resul==Double.MAX_VALUE){
+txfResultado.setText("error");
+
+
+}else{
+Numero resultado=new Numero(resul);
+txfResultado.setText(resultado.toString());
+}
+}
+    }//GEN-LAST:event_calcular
 
     /**
      * @param args the command line arguments
@@ -128,10 +171,10 @@ public class MiniCalculadora extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JTextField txFResultado;
+    private javax.swing.JButton btnResultado;
+    private javax.swing.JComboBox comboBox;
     private javax.swing.JTextField txfNum1;
     private javax.swing.JTextField txfNum2;
+    private javax.swing.JTextField txfResultado;
     // End of variables declaration//GEN-END:variables
 }
